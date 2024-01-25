@@ -5,19 +5,22 @@ import Products from "../Products/Products";
 import Signup from "../Signup/Signup";
 import Cart from "../Cart/Cart";
 
-const Routes = ({ productItems, cartItems, handleAddProduct }) => {
+const Routes = ({ productItems, cartItems, handleAddProduct, handleRemoveProduct }) => {
     return (
+        <div>
         <Switch>
-            <Route path="/signup" component={Signup}/>
-                {/* <Signup /> */}
-            {/* </Route> */}
-            <Route path="/cart" exact>
-                <Cart cartItems={cartItems} handleAddProduct={handleAddProduct} />
-            </Route>
             <Route path="/" exact>
                 <Products productItems={productItems} handleAddProduct={handleAddProduct} />
             </Route>
+            <Route path="/signup" exact>
+                <Signup />
+            </Route>
+            <Route path="/cart" exact>
+                <Cart cartItems={cartItems} handleAddProduct={handleAddProduct} handleRemoveProduct={handleRemoveProduct}/>
+            </Route>
+
         </Switch>
+        </div>
     );
 };
 

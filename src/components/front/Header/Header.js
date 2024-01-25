@@ -1,4 +1,3 @@
-import { Link, BrowserRouter as Router } from 'react-router-dom';
 import "./Header.css";
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -8,31 +7,29 @@ const Header = () => {
         <div className="header">
             <div>
                 <h1>
-                    <Link to="/" className="Logo">
-                        Fancy
-                    </Link>
+                    <a href="/" style={{ textDecoration: "none", color: "white", paddingLeft: "10px" }}>Fancy</a>
                 </h1>
             </div>
             <div className="header-links">
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <a href="/">Home</a>
                     </li>
                 </ul>
                 <ul>
                     <li>
-                        <Link to="/signup">Sign Up</Link>
+                        <a href="/signup">Sign Up</a>
                     </li>
                 </ul>
                 <ul>
                     <li>
-                        <Link to="/cart">
+                        <a href="/cart">
                             <AiOutlineShoppingCart size={30} />
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </div>
-        </div>
+        </div >
     );
 };
 

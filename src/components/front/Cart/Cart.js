@@ -1,5 +1,5 @@
 import React from "react";
-const Cart = ({ cartItems }) => {
+const Cart = ({ cartItems, handleAddProduct, handleRemoveProduct }) => {
     return (
         <div className="cart-items">
             <div className="cart-items-header">
@@ -14,6 +14,12 @@ const Cart = ({ cartItems }) => {
                         <img className="cart-items-image"
                             src={item.image}
                             alt={item.name} />
+                        <div className="cart-items-name">{item.name}</div>
+                        <div className="cart-items-function">
+                            <button className="cart-items-add" onClick={()=>handleAddProduct(item)}>+</button>
+                            <button className="cart-items-remove" onClick={()=>handleRemoveProduct(item)}>-</button>
+
+                        </div>
 
                     </div>
                 ))}
