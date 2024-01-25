@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter as Router } from 'react-router-dom';
 import "./Header.css";
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -27,14 +27,13 @@ const Header = () => {
                 <ul>
                     <li>
                         <Link to="/cart">
-                            <AiOutlineShoppingCart size={30}/>
+                            <AiOutlineShoppingCart size={30} />
                         </Link>
                     </li>
                 </ul>
             </div>
-
         </div>
-    )
+    );
+};
 
-}
 export default Header;

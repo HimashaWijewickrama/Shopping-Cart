@@ -1,21 +1,41 @@
-import data from './components/back/Data/Data';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Header from './components/front/Header/Header';
-import React from 'react';
-import Routes from './components/front/Routes/Routes';
+// App.js
+import React, { useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Header from "./components/front/Header/Header";
+import Routes from "./components/front/Routes/Routes";
+import data from "./components/back/Data/Data";
 
 const App = () => {
-  const { productItems } = data;
+    const { productItems } = data;
+    const [cartItems, setCartItems] = useState([]);
 
-  return (
-    <div>
-      <Router>
-        <Header />
-        <Routes productItems={productItems}/>
-      </Router>
-    </div>
-  )
+    const handleAddProduct = (product) => {
+        const productExist = cartItems.find((item) => item.id === product.id);
+        if (productExist) {
+            setCartItems(
+                cartItems.map((item) =>
+                    item.id === product.id
+                        ? { ...productExist, quantity: productExist.quantity + 1 }
+                        : item
+                )
+            );
+        } else {
+            setCartItems([...cartItems, { ...product, quantity: 1 }]);
+        }
+    };
 
-}
+    return (
+        <Router>
+            <>
+                <Header />
+                <Routes
+                    productItems={productItems}
+                    cartItems={cartItems}
+                    handleAddProduct={handleAddProduct}
+                />
+            </>
+        </Router>
+    );
+};
 
 export default App;
