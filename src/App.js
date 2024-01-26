@@ -1,61 +1,93 @@
-// App.js
-import React, { useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import Header from "./components/front/Header/Header";
-import Routes from "./components/front/Routes/Routes";
-import data from "./components/back/Data/Data";
 
-const App = () => {
-    const { productItems } = data;
-    const [cartItems, setCartItems] = useState([]);
+import React, { useState } from 'react';
+import './App.css';
+import SearchComponent from './components/SearchComponent';
+import ShowCourseComponent from './components/ShowCourseComponent';
+import UserCartComponent from './components/UserCartComponent';
 
-    const handleAddProduct = (product) => {
-        const productExist = cartItems.find((item) => item.id === product.id);
-        if (productExist) {
-            setCartItems(
-                cartItems.map((item) =>
-                    item.id === product.id
-                        ? { ...productExist, quantity: productExist.quantity + 1 }
-                        : item
-                )
-            );
-        } else {
-            setCartItems([...cartItems, { ...product, quantity: 1 }]);
-        }
-    };
+function App() {
+	const [courses, setCourses] = useState([
+		{ id: 1, 
+		name: 'Shoes', 
+		price: 499, 
+		image: 
+'https://images.unsplash.com/photo-1499013819532-e4ff41b00669?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+		},
+		{ id: 2, 
+		name: 'Bag', 
+		price: 699, 
+		image: 
+'https://images.unsplash.com/photo-1606522754091-a3bbf9ad4cb3?q=80&w=2042&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+		},
+		{ id: 3, 
+		name: 'Sneaker', 
+		price: 799, 
+		image: 
+'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+		}
+	]);
 
-    const handleRemoveProduct = (product) => {
-        const productExist = cartItems.find((item) => item.id === product.id);
-        if (productExist.quantity === 1) {
-            setCartItems(
-                cartItems.filter((item) =>
-                    item.id !== product.id));
+	const [cartCourses, setCartCourses] = useState([]);
+	const [searchCourse, setSearchCourse] = useState('');
 
+	const addCourseToCartFunction = (GFGcourse) => {
+		const alreadyCourses = cartCourses
+							.find(item => item.product.id === GFGcourse.id);
+		if (alreadyCourses) {
+			const latestCartUpdate = cartCourses.map(item =>
+				item.product.id === GFGcourse.id ? { 
+				...item, quantity: item.quantity + 1 } 
+				: item
+			);
+			setCartCourses(latestCartUpdate);
+		} else {
+			setCartCourses([...cartCourses, {product: GFGcourse, quantity: 1}]);
+		}
+	};
 
-        } else {
-            setCartItems(
-                cartItems.map((item) =>
-                    item.id === product.id ? { ...productExist, quantity: productExist.quantity - 1 }
-                        : item
-                )
-            );
+	const deleteCourseFromCartFunction = (GFGCourse) => {
+		const updatedCart = cartCourses
+							.filter(item => item.product.id !== GFGCourse.id);
+		setCartCourses(updatedCart);
+	};
 
-        }
-    };
+	const totalAmountCalculationFunction = () => {
+		return cartCourses
+			.reduce((total, item) => 
+						total + item.product.price * item.quantity, 0);
+	};
 
-    return (
-        <Router>
-            <>
-                <Header />
-                <Routes
-                    productItems={productItems}
-                    cartItems={cartItems}
-                    handleAddProduct={handleAddProduct}
-                    handleRemoveProduct={handleRemoveProduct}
-                />
-            </>
-        </Router>
-    );
-};
+	const courseSearchUserFunction = (event) => {
+		setSearchCourse(event.target.value);
+	};
+
+	const filterCourseFunction = courses.filter((course) =>
+		course.name.toLowerCase().includes(searchCourse.toLowerCase())
+	);
+
+	return (
+		<div className="App">
+			<SearchComponent searchCourse={searchCourse} 
+							courseSearchUserFunction=
+								{courseSearchUserFunction} />
+			<main className="App-main">
+				<ShowCourseComponent
+					courses={courses}
+					filterCourseFunction={filterCourseFunction}
+					addCourseToCartFunction={addCourseToCartFunction}
+				/>
+
+				<UserCartComponent
+					cartCourses={cartCourses}
+					deleteCourseFromCartFunction={deleteCourseFromCartFunction}
+					totalAmountCalculationFunction={
+						totalAmountCalculationFunction
+					}
+					setCartCourses={setCartCourses}
+				/>
+			</main>
+		</div>
+	);
+}
 
 export default App;
