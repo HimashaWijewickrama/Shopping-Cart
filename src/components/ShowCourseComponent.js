@@ -17,7 +17,8 @@ function ShowCourseComponent({ courses,
 							<h2>{product.name}</h2>
 							<p>Price: Rs.{product.price}</p>
 							<button
-								className="add-to-cart-button"
+							type="button" className="btn btn-secondary"
+								id="add-to-cart-button"
 								onClick={() => addCourseToCartFunction(product)}
 							>
 								Add to Shopping Cart
